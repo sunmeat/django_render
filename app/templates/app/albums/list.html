@@ -1,0 +1,23 @@
+{% extends 'app/layout.html' %}
+
+{% block sidebar_list %}
+  {% for album in objects %}
+<div class="list-item {% if album.id == request.resolver_match.kwargs.pk %}selected{% endif %}"
+     onclick="location.href='{% url 'app:album-detail' album.pk %}'">
+    <div class="item-avatar">💿</div>
+    <div class="item-info">
+        <div class="item-name">{{ album.title }}</div>
+        <div class="item-sub">{{ album.artist.name }}</div>
+    </div>
+</div>
+  {% empty %}
+<div class="loader">Немає альбомів</div>
+  {% endfor %}
+{% endblock %}
+
+{% block detail_content %}
+<div class="empty-state">
+    <div class="empty-icon">💿</div>
+    <div class="empty-text">Оберіть альбом для перегляду</div>
+</div>
+{% endblock %}

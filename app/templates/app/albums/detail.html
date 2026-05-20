@@ -1,0 +1,74 @@
+{% extends 'app/layout.html' %}
+
+{% block sidebar_list %}
+  {% for album in all_albums %}
+<div class="list-item {% if album.id == object.id %}selected{% endif %}"
+     onclick="location.href='{% url 'app:album-detail' album.pk %}'">
+    <div class="item-avatar">💿</div>
+    <div class="item-info">
+        <div class="item-name">{{ album.title }}</div>
+        <div class="item-sub">{{ album.artist.name }}</div>
+    </div>
+</div>
+  {% endfor %}
+{% endblock %}
+
+{% block detail_content %}
+<div class="detail-hero">
+    <div class="detail-cover">
+        {% if object.cover %}
+        <img src="{{ object.cover.url }}" alt="{{ object.title }}">
+        {% else %}
+        💿
+        {% endif %}
+    </div>
+    <div class="detail-title-block">
+        <div class="detail-title">{{ object.title }}</div>
+        <div class="detail-meta">
+            <span class="meta-chip"><span class="dot"></span>{{ object.artist.name }}</span>
+            {% if object.release_date %}
+            <span class="meta-chip"><span class="dot"></span>{{ object.release_date }}</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% with active_tab=request.GET.tab|default:'info' %}
+<div class="action-row">
+    <a href="?tab=info" class="btn {% if active_tab == 'info' %}active{% endif %}">Інфо</a>
+    <a href="?tab=tracks" class="btn {% if active_tab == 'tracks' %}active{% endif %}">Треки ({{ tracks.count }})</a>
+</div>
+
+<div class="sub-content">
+    {% if active_tab == 'info' %}
+    <div class="fields-grid">
+        <div class="field-block">
+            <div class="field-label">Виконавець</div>
+            <div class="field-value">{{ object.artist.name }}</div>
+        </div>
+   
+        <div class="field-block">
+            <div class="field-label">Треків</div>
+            <div class="field-value">{{ tracks.count }}</div>
+        </div>
+    </div>
+
+    {% elif active_tab == 'tracks' %}
+    <div class="sub-section-title">Треки альбому</div>
+    {% for track in tracks %}
+    <div class="track-row" onclick="location.href='{% url 'app:track-detail' track.pk %}'">
+        <div class="track-num">{{ track.track_number|default:forloop.counter }}</div>
+        <div class="track-name">
+            {{ track.title }}
+            {% if track.is_explicit %}<span class="explicit-tag">E</span>{% endif %}
+        </div>
+        <div class="track-artist"></div>
+        <div class="track-dur">{{ track.get_duration_display|default:'—' }}</div>
+    </div>
+    {% empty %}
+    <p style="color: var(--text-dimmer); font-family: 'DM Mono', monospace; font-size: 0.75rem; padding-top: 1rem;">Немає треків</p>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endwith %}
+{% endblock %}

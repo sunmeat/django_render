@@ -1,0 +1,15 @@
+# cередовище
+.env
+venv/
+__pycache__/
+*.pyc
+
+# зібрана статика (Render збере її сам)
+staticfiles/
+
+# база даних SQLite (у продакшені це буде PostgreSQL)
+db.sqlite3
+
+# IDE
+.idea/
+.vscode/

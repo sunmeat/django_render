@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: my-django-app # змінити на назву вашого веб-сервісу!!!
+    env: python
+    plan: free                
+    
+    buildCommand: ./build.sh
+    startCommand: gunicorn Rest.wsgi:application --log-level info
+    
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+        sync: false
+      
+      - key: DEBUG
+        value: "False"
+      
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      
+      - key: PYTHON_VERSION
+        value: "3.14"        
+
+    # підключення бази даних
+    databases:
+      - name: my-django-db
+        databaseName: mydb
+        user: myuser
+        plan: free

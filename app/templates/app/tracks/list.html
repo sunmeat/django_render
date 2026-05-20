@@ -1,0 +1,23 @@
+{% extends 'app/layout.html' %}
+
+{% block sidebar_list %}
+  {% for track in objects %}
+<div class="list-item {% if track.id == request.resolver_match.kwargs.pk %}selected{% endif %}"
+     onclick="location.href='{% url 'app:track-detail' track.pk %}'">
+    <div class="item-avatar">🎵</div>
+    <div class="item-info">
+        <div class="item-name">{{ track.title }}</div>
+        <div class="item-sub">{{ track.artists.all|join:", " }}</div>
+    </div>
+</div>
+  {% empty %}
+<div class="loader">Немає треків</div>
+  {% endfor %}
+{% endblock %}
+
+{% block detail_content %}
+<div class="empty-state">
+    <div class="empty-icon">🎵</div>
+    <div class="empty-text">Оберіть трек для перегляду</div>
+</div>
+{% endblock %}

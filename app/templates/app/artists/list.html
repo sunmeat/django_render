@@ -1,0 +1,22 @@
+{% extends 'app/layout.html' %}
+
+{% block sidebar_list %}
+  {% for artist in objects %}
+<div class="list-item {% if artist.id == request.resolver_match.kwargs.pk %}selected{% endif %}"
+     onclick="location.href='{% url 'app:artist-detail' artist.pk %}'">
+    <div class="item-avatar">🎤</div>
+    <div class="item-info">
+        <div class="item-name">{{ artist.name }}</div>
+    </div>
+</div>
+  {% empty %}
+<div class="loader">Немає виконавців</div>
+  {% endfor %}
+{% endblock %}
+
+{% block detail_content %}
+<div class="empty-state">
+    <div class="empty-icon">◈</div>
+    <div class="empty-text">Оберіть виконавця для перегляду</div>
+</div>
+{% endblock %}

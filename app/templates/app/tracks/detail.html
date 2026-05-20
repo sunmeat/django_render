@@ -1,0 +1,56 @@
+{% extends 'app/layout.html' %}
+
+{% block sidebar_list %}
+  {% for track in all_tracks %}
+<div class="list-item {% if track.id == object.id %}selected{% endif %}"
+     onclick="location.href='{% url 'app:track-detail' track.pk %}'">
+    <div class="item-avatar">🎵</div>
+    <div class="item-info">
+        <div class="item-name">{{ track.title }}</div>
+        <div class="item-sub">{{ track.artists.all|join:", " }}</div>
+    </div>
+</div>
+  {% endfor %}
+{% endblock %}
+
+{% block detail_content %}
+<div class="detail-hero">
+    <div class="detail-cover">🎵</div>
+    <div class="detail-title-block">
+        <div class="detail-title">{{ object.title }}</div>
+        <div class="detail-meta">
+            <span class="meta-chip"><span class="dot"></span>{{ object.artists.all|join:", " }}</span>
+            {% if object.get_duration_display %}
+            <span class="meta-chip"><span class="dot"></span>{{ object.get_duration_display }}</span>
+            {% endif %}
+            {% if object.album %}
+            <span class="meta-chip"><span class="dot"></span>{{ object.album.title }}</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="sub-content">
+    <div class="fields-grid">
+        <div class="field-block">
+            <div class="field-label">Альбом</div>
+            <div class="field-value">{{ object.album.title|default:'—' }}</div>
+        </div>
+        <div class="field-block">
+            <div class="field-label">Тривалість</div>
+            <div class="field-value">{{ object.get_duration_display|default:'—' }}</div>
+        </div>
+        <div class="field-block">
+            <div class="field-label">Ненормативний</div>
+            <div class="field-value">
+                {% if object.is_explicit %}Так{% else %}Ні{% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if object.lyrics %}
+    <div class="sub-section-title" style="margin-top: 2rem;">Текст пісні</div>
+    <div class="lyrics-block">{{ object.lyrics|linebreaksbr }}</div>
+    {% endif %}
+</div>
+{% endblock %}

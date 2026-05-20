@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AlexFlow{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'app/css/music.css' %}">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --surface2: #1a1a1a;
+            --border: #2a2a2a;
+            --accent: #c8f53e;
+            --accent2: #ff4d6d;
+            --muted: #555;
+            --text: #e8e8e8;
+            --text-dim: #888;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+
+    <script>
+        function filterList() {
+            const q = document.getElementById('searchBox').value.toLowerCase();
+            document.querySelectorAll('.list-item').forEach(item => {
+                const name = item.querySelector('.item-name').textContent.toLowerCase();
+                item.style.display = name.includes(q) ? '' : 'none';
+            });
+        }
+    </script>
+
+    <script>
+        const sidebar = document.getElementById('listContainer');
+        const key = 'sidebar_scroll_' + window.location.pathname.split('/')[1];
+
+        const saved = sessionStorage.getItem(key);
+        if (saved) sidebar.scrollTop = parseInt(saved);
+
+        sidebar.addEventListener('scroll', () => {
+            sessionStorage.setItem(key, sidebar.scrollTop);
+        });
+    </script>
+</body>
+</html>

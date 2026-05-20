@@ -1,0 +1,90 @@
+{% extends 'app/layout.html' %}
+
+{% block sidebar_list %}
+  {% for artist in all_artists %}
+<div class="list-item {% if artist.id == object.id %}selected{% endif %}"
+     onclick="location.href='{% url 'app:artist-detail' artist.pk %}'">
+    <div class="item-avatar">🎤</div>
+    <div class="item-info">
+        <div class="item-name">{{ artist.name }}</div>
+    </div>
+</div>
+  {% endfor %}
+{% endblock %}
+
+{% block detail_content %}
+<div class="detail-hero">
+    <div class="detail-cover">
+        {% if object.image %}
+        <img src="{{ object.image.url }}" alt="{{ object.name }}">
+        {% else %}
+        🎤
+        {% endif %}
+    </div>
+    <div class="detail-title-block">
+        <div class="detail-title">{{ object.name }}</div>
+        <div class="detail-meta">
+            {% if object.country %}<span class="meta-chip"><span class="dot"></span>{{ object.country }}</span>{% endif %}
+            <span class="meta-chip"><span class="dot"></span>{{ object.slug }}</span>
+        </div>
+    </div>
+</div>
+
+{% with active_tab=request.GET.tab|default:'info' %}
+<div class="action-row">
+    <a href="?tab=info" class="btn {% if active_tab == 'info' %}active{% endif %}">Інфо</a>
+    <a href="?tab=albums" class="btn {% if active_tab == 'albums' %}active{% endif %}">Альбоми ({{ albums.count }})</a>
+    <a href="?tab=tracks" class="btn {% if active_tab == 'tracks' %}active{% endif %}">Треки ({{ tracks.count }})</a>
+</div>
+
+<div class="sub-content">
+    {% if active_tab == 'info' %}
+    {% if object.bio %}
+    <div class="sub-section-title">Біографія</div>
+    <p class="bio-text">{{ object.bio|linebreaksbr }}</p>
+    {% endif %}
+    <div class="fields-grid" style="margin-top: 1.5rem;">
+        <div class="field-block">
+            <div class="field-label">Slug</div>
+            <div class="field-value">{{ object.slug }}</div>
+        </div>
+        {% if object.country %}
+        <div class="field-block">
+            <div class="field-label">Країна</div>
+            <div class="field-value">{{ object.country }}</div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% elif active_tab == 'albums' %}
+    <div class="sub-section-title">Альбоми</div>
+    {% for album in albums %}
+    <div class="track-row" onclick="location.href='{% url 'app:album-detail' album.pk %}'">
+        <div class="track-num">{{ forloop.counter }}</div>
+        <div class="track-name">{{ album.title }}</div>
+        <div class="track-artist"></div>
+        <div class="track-dur">{{ album.release_date|default:'—' }}</div>
+    </div>
+    {% empty %}
+    <p style="color: var(--text-dimmer); font-family: 'DM Mono', monospace; font-size: 0.75rem; padding-top: 1rem;">Немає альбомів</p>
+    {% endfor %}
+
+    {% elif active_tab == 'tracks' %}
+    <div class="sub-section-title">Треки</div>
+    {% for track in tracks %}
+    <div class="track-row" onclick="location.href='{% url 'app:track-detail' track.pk %}'">
+        <div class="track-num">{{ forloop.counter }}</div>
+        <div class="track-name">
+            {{ track.title }}
+            {% if track.is_explicit %}<span class="explicit-tag">E</span>{% endif %}
+        </div>
+        <div class="track-artist">{{ track.album.title|default:'—' }}</div>
+        <div class="track-dur">{{ track.get_duration_display|default:'—' }}</div>
+    </div>
+    {% empty %}
+    <p style="color: var(--text-dimmer); font-family: 'DM Mono', monospace; font-size: 0.75rem; padding-top: 1rem;">Немає треків</p>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endwith %}
+{% endblock %}

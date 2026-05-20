@@ -1,0 +1,30 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<header>
+    <div class="logo">Alex<span>Flow</span></div>
+</header>
+
+<nav>
+    <a href="{% url 'app:artist-list' %}" class="tab {% if tab == 'artists' %}active{% endif %}">Виконавці</a>
+    <a href="{% url 'app:album-list' %}" class="tab {% if tab == 'albums' %}active{% endif %}">Альбоми</a>
+    <a href="{% url 'app:track-list' %}" class="tab {% if tab == 'tracks' %}active{% endif %}">Треки</a>
+</nav>
+
+<div class="layout">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <span>{{ title }}</span>
+            <span class="count-badge">{{ objects|length }}</span>
+        </div>
+        <input class="search-box" type="text" placeholder="Пошук..." id="searchBox" onkeyup="filterList()">
+        <div id="listContainer">
+            {% block sidebar_list %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="detail-pane">
+        {% block detail_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
