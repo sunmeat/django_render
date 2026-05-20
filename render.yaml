@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: my-django-app # змінити на назву вашого веб-сервісу!!!
+    name: alexflow # назва проєкту не принципова, можна не змінювати, і так все працює
     env: python
     plan: free                
     
