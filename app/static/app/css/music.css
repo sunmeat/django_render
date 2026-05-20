@@ -37,7 +37,6 @@ body {
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
     min-height: 100vh;
-    overflow: hidden;
     font-size: 14px;
     line-height: 1.5;
 }
@@ -65,9 +64,9 @@ header {
     user-select: none;
 }
 
-    .logo span {
-        color: var(--text-dimmer);
-    }
+.logo span {
+    color: var(--text-dimmer);
+}
 
 .api-base {
     font-family: 'DM Mono', monospace;
@@ -82,6 +81,13 @@ nav {
     display: flex;
     gap: 0;
     background: var(--surface);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+nav::-webkit-scrollbar {
+    display: none;
 }
 
 .tab {
@@ -103,18 +109,20 @@ nav {
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-    .tab:hover {
-        color: var(--text);
-        background: rgba(255, 255, 255, 0.03);
-    }
+.tab:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.03);
+}
 
-    .tab.active {
-        color: var(--accent);
-        border-bottom-color: var(--accent);
-        background: var(--accent-glow);
-    }
+.tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: var(--accent-glow);
+}
 
 .layout {
     display: grid;
@@ -171,13 +179,13 @@ nav {
     letter-spacing: 0.04em;
 }
 
-    .search-box::placeholder {
-        color: var(--text-dimmer);
-    }
+.search-box::placeholder {
+    color: var(--text-dimmer);
+}
 
-    .search-box:focus {
-        background: var(--surface2);
-    }
+.search-box:focus {
+    background: var(--surface2);
+}
 
 #listContainer {
     flex: 1;
@@ -197,32 +205,32 @@ nav {
     position: relative;
 }
 
-    .list-item::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: transparent;
-        transition: background 0.15s;
-    }
+.list-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: transparent;
+    transition: background 0.15s;
+}
 
-    .list-item:hover {
-        background: var(--surface2);
-    }
+.list-item:hover {
+    background: var(--surface2);
+}
 
-        .list-item:hover::before {
-            background: var(--border2);
-        }
+.list-item:hover::before {
+    background: var(--border2);
+}
 
-    .list-item.selected {
-        background: var(--surface3);
-    }
+.list-item.selected {
+    background: var(--surface3);
+}
 
-        .list-item.selected::before {
-            background: var(--accent);
-        }
+.list-item.selected::before {
+    background: var(--accent);
+}
 
 .item-avatar {
     width: 34px;
@@ -334,11 +342,11 @@ nav {
     flex-shrink: 0;
 }
 
-    .detail-cover img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+.detail-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .detail-title-block {
     flex: 1;
@@ -353,6 +361,7 @@ nav {
     line-height: 1;
     color: var(--text);
     margin-bottom: 0.9rem;
+    word-break: break-word;
 }
 
 .detail-meta {
@@ -377,14 +386,14 @@ nav {
     white-space: nowrap;
 }
 
-    .meta-chip .dot {
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        background: var(--accent);
-        flex-shrink: 0;
-        display: inline-block;
-    }
+.meta-chip .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    display: inline-block;
+}
 
 .action-row {
     padding: 1rem 2.5rem;
@@ -410,20 +419,21 @@ nav {
     transition: all 0.15s;
     text-decoration: none;
     display: inline-block;
+    white-space: nowrap;
 }
 
-    .btn:hover {
-        background: var(--surface3);
-        color: var(--text);
-        border-color: var(--muted2);
-    }
+.btn:hover {
+    background: var(--surface3);
+    color: var(--text);
+    border-color: var(--muted2);
+}
 
-    .btn.active {
-        background: var(--accent);
-        color: #000;
-        border-color: var(--accent);
-        font-weight: 600;
-    }
+.btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+    font-weight: 600;
+}
 
 .sub-content {
     padding: 1.8rem 2.5rem 3rem;
@@ -442,28 +452,27 @@ nav {
 
 .track-row {
     display: grid;
-    grid-template-columns: 28px 1fr auto auto;
+    grid-template-columns: 28px 1fr auto;
     align-items: center;
-    gap: 1rem;
-    padding: 0.65rem 0;
+    gap: 0.75rem;
+    padding: 0.65rem 0.5rem;
     border-bottom: 1px solid var(--border);
     font-size: 0.82rem;
     transition: background 0.12s;
     cursor: pointer;
     border-radius: 4px;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
 }
 
-    .track-row:hover {
-        background: var(--surface2);
-    }
+.track-row:hover {
+    background: var(--surface2);
+}
 
 .track-num {
     font-family: 'DM Mono', monospace;
     font-size: 0.68rem;
     color: var(--text-dimmer);
     text-align: right;
+    flex-shrink: 0;
 }
 
 .track-name {
@@ -472,12 +481,11 @@ nav {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
 }
 
 .track-artist {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--text-dim);
+    display: none;
 }
 
 .track-dur {
@@ -486,6 +494,7 @@ nav {
     color: var(--text-dimmer);
     text-align: right;
     white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .explicit-tag {
@@ -517,9 +526,9 @@ nav {
     transition: background 0.12s;
 }
 
-    .field-block:hover {
-        background: var(--surface2);
-    }
+.field-block:hover {
+    background: var(--surface2);
+}
 
 .field-label {
     font-family: 'DM Mono', monospace;
@@ -534,6 +543,7 @@ nav {
     font-size: 0.88rem;
     font-weight: 500;
     color: var(--text);
+    word-break: break-word;
 }
 
 .bio-text {
@@ -572,53 +582,115 @@ nav {
 }
 
 @media (max-width: 768px) {
-    .layout {
-        grid-template-columns: 1fr;
-        height: auto;
-    }
-
-    .sidebar {
-        height: 42vh;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .detail-pane {
-        min-height: 60vh;
+    body {
+        overflow-x: hidden;
     }
 
     header {
-        padding: 1rem 1.2rem;
+        padding: 0.9rem 1.2rem;
+        gap: 1rem;
+    }
+
+    .logo {
+        font-size: 1.7rem;
+    }
+
+    .api-base {
+        display: none;
     }
 
     nav {
-        padding: 0 1rem;
-        overflow-x: auto;
-        scrollbar-width: none;
+        padding: 0 0.8rem;
     }
 
-        nav::-webkit-scrollbar {
-            display: none;
-        }
+    .layout {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 97px);
+    }
+
+    .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        height: 38vh;
+        min-height: 180px;
+        max-height: 280px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    #listContainer {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .detail-pane {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        min-height: 0;
+    }
+
+    .empty-state {
+        min-height: 200px;
+    }
 
     .detail-hero {
-        padding: 1.4rem 1.4rem 1.2rem;
-        gap: 1.2rem;
+        padding: 1.2rem 1rem 1rem;
+        gap: 1rem;
+    }
+
+    .detail-cover {
+        width: 72px;
+        height: 72px;
+        font-size: 1.8rem;
     }
 
     .detail-title {
-        font-size: 2rem;
+        font-size: 1.7rem;
     }
 
-    .sub-content {
-        padding: 1.4rem 1.4rem 2rem;
+    .detail-title-block {
+        padding-top: 0;
     }
 
     .action-row {
-        padding: 0.8rem 1.4rem;
+        padding: 0.75rem 1rem;
+        gap: 0.4rem;
+    }
+
+    .sub-content {
+        padding: 1.2rem 1rem 2rem;
+    }
+
+    .track-row {
+        grid-template-columns: 22px 1fr auto;
+        gap: 0.5rem;
     }
 
     .fields-grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .lyrics-block {
+        padding: 1rem 1.2rem;
+        font-size: 0.73rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .track-row {
+        grid-template-columns: 28px 1fr auto auto;
+    }
+
+    .track-artist {
+        display: block;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.68rem;
+        color: var(--text-dim);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
